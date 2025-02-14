@@ -134,4 +134,6 @@ bot.hears('Сегодня', getSegodn)
 bot.hears('Завтра', getZavtra)
 bot.hears('На неделю', getNedel)
 
-bot.start()
+bot.start().catch(console.error)
+
+setInterval(() => {}, 1000 * 60 * 60)

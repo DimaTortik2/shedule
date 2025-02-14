@@ -1,4 +1,13 @@
 const { Bot, Keyboard } = require('grammy')
+const http = require('http')
+
+const server = http.createServer((req, res) => {
+	res.writeHead(200, { 'Content-Type': 'text/plain' })
+	res.end('Bot is running\n')
+})
+server.listen(3000, () => {
+	console.log(`Server running on port 3000`)
+})
 
 const bot = new Bot('8044462387:AAF_CYdUpEL6mVazbiwuCaC1ibkDPqAwR1I')
 
@@ -32,11 +41,11 @@ const SHEDULE_ARRAY2_4 = [
 const isChetnae = () => {
 	const currentDate = new Date()
 
-	const startOfYear = new Date(currentDate.getFullYear(), 0, 1) 
+	const startOfYear = new Date(currentDate.getFullYear(), 0, 1)
 	const daysPassed = Math.floor(
 		(currentDate - startOfYear) / (1000 * 60 * 60 * 24)
-	) 
-	return Math.ceil((daysPassed + startOfYear.getDay() + 1) / 7) % 2 == 0 
+	)
+	return Math.ceil((daysPassed + startOfYear.getDay() + 1) / 7) % 2 == 0
 }
 
 const getNedel = ctx => {

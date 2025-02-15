@@ -1,4 +1,4 @@
-const { Bot, Keyboard } = require('grammy')
+const { Bot, Keyboard, webhookCallback} = require('grammy')
 const express = require('express')
 
 // Создаем бота с токеном из переменных окружения

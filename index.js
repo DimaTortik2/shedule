@@ -1,15 +1,33 @@
 const { Bot, Keyboard } = require('grammy')
-const http = require('http')
+const express = require('express')
 
-const server = http.createServer((req, res) => {
-	res.writeHead(200, { 'Content-Type': 'text/plain' })
-	res.end('Bot is running\n')
-})
-server.listen(3000, () => {
-	console.log(`Server running on port 3000`)
+const bot = new Bot(process.env.BOT_TOKEN)
+const app = express()
+app.use(express.json())
+
+// Webhook обработчик
+app.post(`/webhook/${process.env.BOT_TOKEN}`, async (req, res) => {
+	try {
+		await bot.handleUpdate(req.body)
+		res.sendStatus(200)
+	} catch (error) {
+		console.error('Ошибка обработки Webhook:', error)
+		res.sendStatus(500)
+	}
 })
 
-const bot = new Bot('8044462387:AAF_CYdUpEL6mVazbiwuCaC1ibkDPqAwR1I')
+app.listen(3000, async () => {
+	console.log('Сервер запущен на порту 3000')
+
+	// Устанавливаем Webhook для Telegram
+	const webhookUrl = `https://${process.env.VERCEL_URL}/webhook/${process.env.BOT_TOKEN}`
+	try {
+		await bot.api.setWebhook(webhookUrl)
+		console.log('Webhook установлен:', webhookUrl)
+	} catch (error) {
+		console.error('Ошибка установки Webhook:', error)
+	}
+})
 
 const SHEDULE_ARRAY1_3 = [
 	'Отдыхаем :]',
@@ -142,7 +160,3 @@ bot.hears('Клава', ctx => {
 bot.hears('Сегодня', getSegodn)
 bot.hears('Завтра', getZavtra)
 bot.hears('На неделю', getNedel)
-
-bot.start().catch(console.error)
-
-setInterval(() => {}, 1000 * 60 * 60)

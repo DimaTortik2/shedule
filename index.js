@@ -1,33 +1,6 @@
 const { Bot, Keyboard } = require('grammy')
-const express = require('express')
 
-const bot = new Bot(process.env.BOT_TOKEN)
-const app = express()
-app.use(express.json())
-
-// Webhook обработчик
-app.post(`/webhook/${process.env.BOT_TOKEN}`, async (req, res) => {
-	try {
-		await bot.handleUpdate(req.body)
-		res.sendStatus(200)
-	} catch (error) {
-		console.error('Ошибка обработки Webhook:', error)
-		res.sendStatus(500)
-	}
-})
-
-app.listen(3000, async () => {
-	console.log('Сервер запущен на порту 3000')
-
-	// Устанавливаем Webhook для Telegram
-	const webhookUrl = `https://${process.env.VERCEL_URL}/webhook/${process.env.BOT_TOKEN}`
-	try {
-		await bot.api.setWebhook(webhookUrl)
-		console.log('Webhook установлен:', webhookUrl)
-	} catch (error) {
-		console.error('Ошибка установки Webhook:', error)
-	}
-})
+const bot = new Bot('8044462387:AAF_CYdUpEL6mVazbiwuCaC1ibkDPqAwR1I')
 
 const SHEDULE_ARRAY1_3 = [
 	'Отдыхаем :]',
@@ -161,4 +134,4 @@ bot.hears('Сегодня', getSegodn)
 bot.hears('Завтра', getZavtra)
 bot.hears('На неделю', getNedel)
 
-console.log('hi')
+bot.start().catch(console.error)

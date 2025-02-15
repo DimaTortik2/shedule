@@ -1,6 +1,8 @@
 const { Bot, Keyboard } = require('grammy')
+const express = require('express')
 
-const bot = new Bot('8044462387:AAF_CYdUpEL6mVazbiwuCaC1ibkDPqAwR1I')
+// Создаем бота с токеном из переменных окружения
+const bot = new Bot(process.env.BOT_TOKEN)
 
 const SHEDULE_ARRAY1_3 = [
 	'Отдыхаем :]',
@@ -134,4 +136,16 @@ bot.hears('Сегодня', getSegodn)
 bot.hears('Завтра', getZavtra)
 bot.hears('На неделю', getNedel)
 
-bot.start().catch(console.error)
+const app = express()
+app.use(express.json())
+app.use('/' + process.env.BOT_TOKEN, webhookCallback(bot, 'express'))
+
+app.get('/', (req, res) => res.send('Бот работает!'))
+
+const PORT = 3000
+app.listen(PORT, async () => {
+	console.log(`Сервер запущен на порту ${PORT}`)
+	await bot.api.setWebhook(
+		`https://YOUR_VERCEL_PROJECT.vercel.app/${process.env.BOT_TOKEN}`
+	)
+})

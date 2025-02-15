@@ -160,3 +160,5 @@ bot.hears('Клава', ctx => {
 bot.hears('Сегодня', getSegodn)
 bot.hears('Завтра', getZavtra)
 bot.hears('На неделю', getNedel)
+
+console.log('hi')

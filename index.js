@@ -146,6 +146,6 @@ const PORT = 3000
 app.listen(PORT, async () => {
 	console.log(`Сервер запущен на порту ${PORT}`)
 	await bot.api.setWebhook(
-		`https://YOUR_VERCEL_PROJECT.vercel.app/${process.env.BOT_TOKEN}`
+		`https://shedule-taupe.vercel.app/${process.env.BOT_TOKEN}`
 	)
 })
